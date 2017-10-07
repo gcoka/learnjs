@@ -116,7 +116,7 @@ learnjs.addProfileLink = function (profile) {
 }
 
 learnjs.poolId = "ap-northeast-1:7f339c56-d9be-4584-8e98-4c225e97eced";
-ß
+
 learnjs.awsRefresh = function () {
     var deferred = new $.Deferred();
     AWS.config.credentials.refresh(function (err) {
