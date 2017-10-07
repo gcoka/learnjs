@@ -1,0 +1,35 @@
+{
+    "Table": {
+        "TableArn": "arn:aws:dynamodb:ap-northeast-1:598003641956:table/learnjs-gcoka", 
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "problemId", 
+                "AttributeType": "N"
+            }, 
+            {
+                "AttributeName": "userId", 
+                "AttributeType": "S"
+            }
+        ], 
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0, 
+            "WriteCapacityUnits": 1, 
+            "ReadCapacityUnits": 1
+        }, 
+        "TableSizeBytes": 0, 
+        "TableName": "learnjs-gcoka", 
+        "TableStatus": "ACTIVE", 
+        "KeySchema": [
+            {
+                "KeyType": "HASH", 
+                "AttributeName": "userId"
+            }, 
+            {
+                "KeyType": "RANGE", 
+                "AttributeName": "problemId"
+            }
+        ], 
+        "ItemCount": 0, 
+        "CreationDateTime": 1507382314.724
+    }
+}
