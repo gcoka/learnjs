@@ -78,6 +78,33 @@ learnjs.buildCorrectFlash = function (problemNumber) {
         link.attr("href", "");
         link.text("You're Finished!");
     }
+
+    // with API Gateway
+    learnjs.popularAnswersAPI(problemNumber).then(function(data){
+        var list = correctFlash.find("ol");
+        var answers = data;
+        for (var answer in answers){
+            var answerCount = answers[answer];
+            var answerItem = learnjs.template("popular-asnwer-item");
+            answerItem.find(".answer-code").text(answer);
+            answerItem.find(".answer-count").text(answerCount);
+            list.append(answerItem);
+        }
+    });
+
+    // with AWS-SDK lambda invoke
+    // learnjs.popularAnswers(problemNumber).then(function(data){
+    //     var list = correctFlash.find("ol");
+    //     var answers = JSON.parse(data.Payload);
+    //     for (var answer in answers){
+    //         var answerCount = answers[answer];
+    //         var answerItem = learnjs.template("popular-asnwer-item");
+    //         answerItem.find(".answer-code").text(answer);
+    //         answerItem.find(".answer-count").text(answerCount);
+    //         list.append(answerItem);
+    //     }
+    // });
+
     return correctFlash;
 }
 
@@ -169,7 +196,7 @@ function googleSignIn(googleUser) {
     });
 }
 
-learnjs.sendDbRequest = function (req, retry) {
+learnjs.sendAwsRequest = function (req, retry) {
     var promise = new $.Deferred();
     req.on("error", function (error) {
         if (error.code === "CredentialsError") {
@@ -203,7 +230,7 @@ learnjs.saveAnswer = function (problemId, answer) {
                 answer: answer
             }
         };
-        return learnjs.sendDbRequest(db.put(item), function () {
+        return learnjs.sendAwsRequest(db.put(item), function () {
             return learnjs.saveAnswer(problemId, answer);
         });
     });
@@ -219,11 +246,44 @@ learnjs.fetchAnswer = function(problemId) {
                 problemId: problemId
             }
         };
-        return learnjs.sendDbRequest(db.get(item), function() {
+        return learnjs.sendAwsRequest(db.get(item), function() {
             return learnjs.fetchAnswer(problemId);
         });
     })
 };
+
+learnjs.popularAnswers = function(problemId){
+    return learnjs.identity.then(function() {
+        var lambda = new AWS.Lambda();
+        var params = {
+            FunctionName: "popularAnswers-gcoka",
+            Payload: JSON.stringify({problemNumber: problemId})
+        };
+        return learnjs.sendAwsRequest(lambda.invoke(params), function(){
+            return learnjs.popularAnswers(problemId);
+        });
+    });
+}
+
+learnjs.popularAnswersAPI = function(problemId) {
+    return $.ajax({
+        type: "post",
+        url: "https://4uoh31yo70.execute-api.ap-northeast-1.amazonaws.com/test/popularanswers",
+        data:JSON.stringify({problemNumber: problemId}),
+        contentType: 'application/json',
+        dataType: "json",
+        success: function(res) {
+            if (res.errorMessage) {
+                console.log(res);
+                return {};
+            }
+            return res;
+        },
+        error: function() {
+            alert("server error");
+        }
+    })
+}
 
 learnjs.problems = [
     {

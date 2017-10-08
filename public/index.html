@@ -72,6 +72,11 @@
       padding-top: 7px;
       display: inline-block;
     }
+
+    .inline-div div {
+      display: inline;
+    }
+
   </style>
 </head>
 
@@ -130,7 +135,16 @@
       <div class="correct-flash">
         <span>Correct!</span>
         <a>Next Problem</a>
+        <p>Popular Answers are shown below...</p>
+        <ol class="popular-answers">
+        </ol>
       </div>
+      <li class="popular-asnwer-item inline-div">
+        <div>Count: </div>
+        <div class="answer-count"></div>
+        <div>Code: </div>
+        <div class="answer-code"></div>
+      </li>
       <li class="skip-btn">
         <a>Skip This Problem</a>
       </li>

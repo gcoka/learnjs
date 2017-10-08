@@ -1,0 +1,17 @@
+{
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    }, 
+    "CodeSha256": "iupn0E8f1wNkpu5QrjEy30/8El8WDzIKqect3DS4maM=", 
+    "FunctionName": "popularAnswers-gcoka", 
+    "CodeSize": 787016, 
+    "MemorySize": 512, 
+    "FunctionArn": "arn:aws:lambda:ap-northeast-1:598003641956:function:popularAnswers-gcoka", 
+    "Version": "$LATEST", 
+    "Role": "arn:aws:iam::598003641956:role/learnjs-gcoka_lambda_exec", 
+    "Timeout": 5, 
+    "LastModified": "2017-10-07T17:39:44.216+0000", 
+    "Handler": "index.popularAnswers-gcoka", 
+    "Runtime": "nodejs4.3", 
+    "Description": ""
+}
