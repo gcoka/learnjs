@@ -34,17 +34,27 @@ learnjs.problemView = function (problemNoHash) {
     var answer = view.find(".answer");
 
     function checkAnswer() {
+        var deferred = $.Deferred();
         var test = problemData.code.replace("__", answer.val()) + "; problem();";
-        return eval(test);
+        var worker = new Worker("worker.js");
+        worker.onmessage = function(e) {
+            if(e.data){
+                deferred.resolve(e.data);
+            }else{
+                deferred.reject();
+            }
+        }
+        worker.postMessage(test);
+        return deferred;
     }
 
     function checkAnswerClick() {
-        if (checkAnswer()) {
+        checkAnswer().done(function() {
             learnjs.flashElement(resultFlash, learnjs.buildCorrectFlash(problemNumber));
             learnjs.saveAnswer(problemNumber, answer.val());
-        } else {
+        }).fail(function() {
             learnjs.flashElement(resultFlash, "Incorrect!");
-        }
+        });
         // prevent not to page reload
         return false;
     }
