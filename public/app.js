@@ -45,6 +45,10 @@ learnjs.problemView = function (problemNoHash) {
             }
         }
         worker.postMessage(test);
+        // release worker process in 5 sec
+        setTimeout(function(){
+            worker.terminate();
+        }, 5000);
         return deferred;
     }
 
@@ -303,5 +307,12 @@ learnjs.problems = [
     {
         description: "simple math",
         code: "function problem() { return 42 === 6 * __;}"
+    },
+    {
+        description: "implement max function",
+        code: "function problem() { " + 
+        " function max(x, y) { __ } " + 
+        " /* test cases... */" +
+        " return max(1, 0) === 1 && max(120, 160) === 160 && max(-10, -5) === -5 && max(5,5) === 5;}"
     },
 ];
